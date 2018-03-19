@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<allNotations>
+    <notation>
+        <type>Variant</type>
+        <kind>Числовые</kind>
+        <subtype>Byte</subtype>
+        <description>Содержит целые в диапазоне от 0 до 255</description>
+    </notation>
+
+    <notation>
+        <type>Variant</type>
+        <kind>Числовые</kind>
+        <subtype>Integer</subtype>
+        <description>Содержит целые в диапазоне от -32768 до 32767</description>
+    </notation>
+
+    <notation>
+        <type>Variant</type>
+        <kind>Числовые</kind>
+        <subtype>Long</subtype>
+        <description>Содержит целые в диапазоне от -2147483648 до 2147483647</description>
+    </notation>
+
+    <notation>
+        <type>Variant</type>
+        <kind>Объектный</kind>
+        <subtype>Object</subtype>
+        <description>Содержит объект</description>
+    </notation>
+
+    <notation>
+        <type>Variant</type>
+        <kind>Строковый</kind>
+        <subtype>String</subtype>
+        <description>Содержит строку переменной длины, которая максимально может содержать 2 миллиона символов</description>
+    </notation>
+
+</allNotations>
