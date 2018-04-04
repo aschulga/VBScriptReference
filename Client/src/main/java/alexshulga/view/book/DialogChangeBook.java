@@ -1,21 +1,23 @@
-package alexshulga.view;
+package alexshulga.view.book;
 
+import alexshulga.author.Author;
+import alexshulga.book.Book;
 import alexshulga.controller.Controller;
-import alexshulga.kind.Kind;
-import alexshulga.notation.Notation;
+import alexshulga.theme.Theme;
 import org.apache.thrift.TException;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
-public class DialogChange {
+public class DialogChangeBook {
 
     private JDialog dialog = new JDialog();
     private Controller controller;
 
-    public DialogChange(Controller controller) {
+    public DialogChangeBook(Controller controller) {
         this.controller = controller;
     }
 
@@ -34,40 +36,31 @@ public class DialogChange {
         dialog.add(numberTextField, new GridBagConstraints(1, 0, 1, 1, 1, 1,
                 GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, new Insets(2, 2, 2, 2), 0, 0));
 
-        JLabel typeLabel = new JLabel("Тип: ");
-        JTextField typeTextField = new JTextField(10);
+        JLabel lastNameLabel = new JLabel("Фамилия: ");
+        JTextField lastNameTextField = new JTextField(10);
 
-        dialog.add(typeLabel, new GridBagConstraints(0, 1, 1, 1, 1, 1,
+        dialog.add(lastNameLabel, new GridBagConstraints(0, 1, 1, 1, 1, 1,
                 GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, new Insets(2, 2, 2, 2), 0, 0));
 
-        dialog.add(typeTextField, new GridBagConstraints(1, 1, 1, 1, 1, 1,
+        dialog.add(lastNameTextField, new GridBagConstraints(1, 1, 1, 1, 1, 1,
                 GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, new Insets(2, 2, 2, 2), 0, 0));
 
-        JLabel kindLabel = new JLabel("Вид: ");
-        JTextField kindTextField = new JTextField(10);
+        JLabel surNameLabel = new JLabel("Имя: ");
+        JTextField surNameTextField = new JTextField(10);
 
-        dialog.add(kindLabel, new GridBagConstraints(0, 2, 1, 1, 1, 1,
+        dialog.add(surNameLabel, new GridBagConstraints(0, 2, 1, 1, 1, 1,
                 GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, new Insets(2, 2, 2, 2), 0, 0));
 
-        dialog.add(kindTextField, new GridBagConstraints(1, 2, 1, 1, 1, 1,
+        dialog.add(surNameTextField, new GridBagConstraints(1, 2, 1, 1, 1, 1,
                 GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, new Insets(2, 2, 2, 2), 0, 0));
 
-        JLabel subTypeLabel = new JLabel("Подтип: ");
-        JTextField subTypeTextField = new JTextField(10);
+        JLabel titleLabel = new JLabel("Название: ");
+        JTextField titleTextField = new JTextField(10);
 
-        dialog.add(subTypeLabel, new GridBagConstraints(0, 3, 1, 1, 1, 1,
+        dialog.add(titleLabel, new GridBagConstraints(0, 3, 1, 1, 1, 1,
                 GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, new Insets(2, 2, 2, 2), 0, 0));
 
-        dialog.add(subTypeTextField, new GridBagConstraints(1, 3, 1, 1, 1, 1,
-                GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, new Insets(2, 2, 2, 2), 0, 0));
-
-        JLabel descriptionLabel = new JLabel("Описание: ");
-        JTextField descriptionTextField = new JTextField(10);
-
-        dialog.add(descriptionLabel, new GridBagConstraints(0, 4, 1, 1, 1, 1,
-                GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, new Insets(2, 2, 2, 2), 0, 0));
-
-        dialog.add(descriptionTextField, new GridBagConstraints(1, 4, 1, 1, 1, 1,
+        dialog.add(titleTextField, new GridBagConstraints(1, 3, 1, 1, 1, 1,
                 GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, new Insets(2, 2, 2, 2), 0, 0));
 
         JButton changeNotation = new JButton("Изменить запись");
@@ -82,17 +75,17 @@ public class DialogChange {
         changeNotation.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (numberTextField.getText().trim().isEmpty() || typeTextField.getText().trim().isEmpty() ||
-                        kindTextField.getText().trim().isEmpty() || subTypeTextField.getText().trim().isEmpty()) {
+                if (numberTextField.getText().trim().isEmpty() || surNameLabel.getText().trim().isEmpty() ||
+                        lastNameLabel.getText().trim().isEmpty() || titleLabel.getText().trim().isEmpty()) {
                     JOptionPane.showMessageDialog(new JFrame(), "Одно или несколько полей не заполнены");
                     return;
                 } else {
                     try
                     {
-                        Notation notation = new Notation(Integer.parseInt(numberTextField.getText()), typeTextField.getText(), new Kind(kindTextField.getText()),
-                                subTypeTextField.getText(), descriptionTextField.getText());
+                        Book book = new Book(controller.getAllBooks().size()+1, new Author(lastNameTextField.getText(),
+                                surNameTextField.getText()), titleTextField.getText(), new ArrayList<Theme>());
 
-                        controller.changeNotation(Integer.parseInt(numberTextField.getText()), notation);
+                        controller.changeBook(Integer.parseInt(numberTextField.getText()), book);
                         JOptionPane.showMessageDialog(dialog, "Запись успешно изменена. Для продолжения работы нажмите \"ОК\"");
                         dialog.dispose();
                     } catch (TException e1) {

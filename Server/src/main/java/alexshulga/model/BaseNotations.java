@@ -1,15 +1,15 @@
 package alexshulga.model;
 
-import alexshulga.notation.Notation;
+import alexshulga.book.Book;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class BaseNotations {
 
-    List<Notation> list = new ArrayList<>();
+    private List<Book> list = new ArrayList<>();
 
-    public List<Notation> getList() {
+    public List<Book> getList() {
         return list;
     }
 }

@@ -1,4 +1,4 @@
-package alexshulga.view;
+package alexshulga.view.book;
 
 import alexshulga.controller.Controller;
 import org.apache.thrift.TException;
@@ -9,11 +9,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 
-public class DialogDelete {
+public class DialogDeleteBook {
     private JDialog dialog = new JDialog();
     private Controller controller;
 
-    public DialogDelete(Controller controller) {
+    public DialogDeleteBook(Controller controller) {
         this.controller = controller;
     }
 
@@ -57,7 +57,7 @@ public class DialogDelete {
                     return;
                 } else {
                     try {
-                        controller.deleteNotation(numberTextField.getText());
+                        controller.deleteBook(numberTextField.getText());
                         JOptionPane.showMessageDialog(dialog, "Запись успешно удалена. Для продолжения работы нажмите \"ОК\"");
                         dialog.dispose();
                     } catch (TException e1) {

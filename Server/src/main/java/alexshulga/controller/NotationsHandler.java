@@ -1,12 +1,14 @@
 package alexshulga.controller;
 
-import alexshulga.notation.Notation;
-import alexshulga.services.NotationService;
+import alexshulga.book.Book;
+import alexshulga.bookservice.BookService;
+import alexshulga.theme.Theme;
+import org.apache.thrift.TException;
 
 import java.io.File;
 import java.util.List;
 
-public class NotationsHandler implements NotationService.Iface {
+public class NotationsHandler implements BookService.Iface {
 
     private Controller controller;
     private final static String FILE_NAME = "fileWithData/newChanging.xml";
@@ -16,35 +18,58 @@ public class NotationsHandler implements NotationService.Iface {
     }
 
     @Override
-    public List<Notation> getAllNotations(){
-
-        for(int i = 0; i < controller.getListNotations().size(); i++){
-            controller.getListNotations().get(i).setId(i+1);
+    public List<Book> getAllBooks(){
+        for(int i = 0; i < controller.getListBooks().size(); i++){
+            controller.getListBooks().get(i).setId(i+1);
         }
-        return controller.getListNotations();
+        return controller.getListBooks();
     }
 
     @Override
-    public void addNotation(Notation notation){
-        controller.getListNotations().add(notation);
+    public void addBook(Book book){
+        controller.getListBooks().add(book);
     }
 
     @Override
-    public void deleteNotation(int index){
+    public void deleteBook(int index){
         int number = index - 1;
-        controller.getListNotations().remove(number);
+        controller.getListBooks().remove(number);
     }
 
     @Override
-    public void changeNotation(int index, Notation notation) {
+    public void changeBook(int index, Book book){
         int number = index - 1;
-        controller.getListNotations().remove(number);
-        controller.getListNotations().add(number, notation);
+        controller.getListBooks().remove(number);
+        controller.getListBooks().add(number, book);
+    }
+
+    @Override
+    public void addTheme(Theme theme, int indexInListBooks){
+        controller.getListBooks().get(indexInListBooks).addToListThemes(theme);
+    }
+
+    @Override
+    public List<Theme> getAllThemes(int index){
+        for(int i = 0; i < controller.getListBooks().get(index).getListThemes().size(); i++){
+            controller.getListBooks().get(index).getListThemes().get(i).setId(i+1);
+        }
+        return controller.getListBooks().get(index).getListThemes();
+    }
+
+    @Override
+    public void deleteTheme(int index, int indexInListBooks){
+        controller.getListBooks().get(indexInListBooks).getListThemes().remove(index);
+    }
+
+    @Override
+    public void changeTheme(int index, Theme theme, int indexInListBooks){
+        controller.getListBooks().get(indexInListBooks).getListThemes().remove(index);
+        controller.getListBooks().get(indexInListBooks).getListThemes().add(index, theme);
     }
 
     @Override
     public void saveChanging() {
-        SaveChanging saveStudentDialog = new SaveChanging(controller, new File(FILE_NAME));
-        saveStudentDialog.save();
+        //SaveChanging saveStudentDialog = new SaveChanging(controller, new File(FILE_NAME));
+        //saveStudentDialog.save();
     }
 }

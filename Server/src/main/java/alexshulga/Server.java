@@ -1,9 +1,9 @@
 package alexshulga;
 
+import alexshulga.bookservice.BookService;
 import alexshulga.controller.Controller;
 import alexshulga.controller.NotationsHandler;
 import alexshulga.model.BaseNotations;
-import alexshulga.services.NotationService;
 import org.apache.thrift.server.TServer;
 import org.apache.thrift.server.TSimpleServer;
 import org.apache.thrift.transport.TServerSocket;
@@ -14,17 +14,17 @@ public class Server {
     private static final int PORT = 8000;
 
     public static NotationsHandler handler;
-    public static NotationService.Processor processor;
+    public static BookService.Processor processor;
 
     public static void main(String[] args) {
 
         BaseNotations base = new BaseNotations();
         Controller controller = new Controller(base);
-        controller.fillDataBase();
 
         try {
+
             handler = new NotationsHandler(controller);
-            processor = new NotationService.Processor(handler);
+            processor = new BookService.Processor(handler);
 
             Runnable simple = () -> perform(processor);
 
@@ -34,7 +34,7 @@ public class Server {
         }
     }
 
-    public static void perform(NotationService.Processor processor) {
+    public static void perform(BookService.Processor processor) {
         try {
             TServerTransport serverTransport = new TServerSocket(PORT);
             TServer server = new TSimpleServer(
